@@ -4,39 +4,76 @@
 #include "SobelFilter.h"
 #include <stdio.h>
 #include <opencv2/opencv.hpp>
+#include "GaussianBlur.h"
 
-using namespace cv;
-using namespace std;
+static void imageToGrey(const cv::Mat& src, cv::Mat& dst)
+{
+
+    std::vector<cv::Mat> channels;
+    cv::split(src, channels);
+
+    
+    
+    
+
+    
+}
+
+
+static void NativeOpenCVSobelFilter(const cv::Mat & src, cv::Mat& dst, int ksize, int scale, int delta, int ddepth)
+{
+
+    // First we declare the variables we are going to use
+    cv::Mat src_gray;
+    cv::Mat grad;
+
+    cv::GaussianBlur(src, dst, cv::Size(3, 3), 0, 0, cv::BORDER_DEFAULT);
+    /*
+    // Convert the image to grayscale
+    cvtColor(dst, src_gray, COLOR_BGR2GRAY);
+
+    Mat grad_x, grad_y;
+    Mat abs_grad_x, abs_grad_y;
+
+    Sobel(src_gray, grad_x, ddepth, 1, 0, ksize, scale, delta, BORDER_DEFAULT);
+
+    Sobel(src_gray, grad_y, ddepth, 0, 1, ksize, scale, delta, BORDER_DEFAULT);
+
+    // converting back to CV_8U
+    convertScaleAbs(grad_x, abs_grad_x);
+    convertScaleAbs(grad_y, abs_grad_y);
+
+    addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
+    */
+}
 
 
 int main(int argc, char** argv)
 {
 
     cv::CommandLineParser parser(argc, argv,
-        "{@input   |lena.jpg|input image}"
+        "{@input   |..\\..\\..\\lena.jpg | input image }"
         "{ksize   k|1|ksize (hit 'K' to increase its value at run time)}"
         "{scale   s|1|scale (hit 'S' to increase its value at run time)}"
         "{delta   d|0|delta (hit 'D' to increase its value at run time)}"
         "{help    h|false|show help message}");
 
-    cout << "The sample uses Sobel or Scharr OpenCV functions for edge detection\n\n";
+    std::cout << "The sample uses Sobel or Scharr OpenCV functions for edge detection\n\n";
     parser.printMessage();
-    cout << "\nPress 'ESC' to exit program.\nPress 'R' to reset values ( ksize will be -1 equal to Scharr function )";
+    std::cout << "\nPress 'ESC' to exit program.\nPress 'R' to reset values ( ksize will be -1 equal to Scharr function )";
 
-    // First we declare the variables we are going to use
-    Mat image, src, src_gray;
-    Mat grad;
-    const String window_name = "Sobel Demo - Simple Edge Detector";
+
+    const cv::String window_name = "Sobel Demo - Simple Edge Detector";
     int ksize = parser.get<int>("ksize");
     int scale = parser.get<int>("scale");
     int delta = parser.get<int>("delta");
     int ddepth = CV_16S;
 
-    String imageName = parser.get<String>("@input");
+    cv::String imageName = parser.get<cv::String>("@input");
     // As usual we load our source image (src)
-    image = imread(samples::findFile(imageName), IMREAD_COLOR); // Load an image
+    cv::Mat image = cv::imread(cv::samples::findFile(imageName), cv::IMREAD_COLOR); // Load an image
 
-    image.datastart;
+    cv::Mat output;
 
     // Check if image is loaded fine
     if (image.empty())
@@ -47,48 +84,36 @@ int main(int argc, char** argv)
 
     for (;;)
     {
-        // Remove noise by blurring with a Gaussian filter ( kernel size = 3 )
-        GaussianBlur(image, src, Size(3, 3), 0, 0, BORDER_DEFAULT);
+        output = image;
 
-        // Convert the image to grayscale
-        cvtColor(src, src_gray, COLOR_BGR2GRAY);
 
-        Mat grad_x, grad_y;
-        Mat abs_grad_x, abs_grad_y;
 
-        Sobel(src_gray, grad_x, ddepth, 1, 0, ksize, scale, delta, BORDER_DEFAULT);
-
-        Sobel(src_gray, grad_y, ddepth, 0, 1, ksize, scale, delta, BORDER_DEFAULT);
-
-        // converting back to CV_8U
-        convertScaleAbs(grad_x, abs_grad_x);
-        convertScaleAbs(grad_y, abs_grad_y);
-
-        addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
-
-        char key = (char)waitKey(0);
+        char key = (char)cv::waitKey(0);
 
         if (key == 27)
         {
             return EXIT_SUCCESS;
         }
 
-        if (key == 'k' || key == 'K')
+
+        if (key == 's')
         {
-            grad = abs_grad_x;
+            NativeOpenCVSobelFilter(image, output, ksize, scale, delta, ddepth);
         }
 
-        if (key == 's' || key == 'S')
+        if (key == 'd')
         {
-            grad = abs_grad_y;
+            GaussianBlur::apply(image, output);
         }
 
-        if (key == 'd' || key == 'D')
+        if (key == 'f')
         {
-            addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
+            image = cv::imread(cv::samples::findFile(imageName), cv::IMREAD_COLOR);
         }
 
-        imshow(window_name, grad);
+
+
+        imshow(window_name, output);
 
     }
     return EXIT_SUCCESS;

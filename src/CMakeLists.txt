@@ -1,6 +1,6 @@
 ﻿
 add_executable(${PROJECT_NAME})
-target_sources(${PROJECT_NAME} PRIVATE "SobelFilter.cpp" "SobelFilter.h" "Denoiser.h")
+target_sources(${PROJECT_NAME} PRIVATE "SobelFilter.cpp" "SobelFilter.h" "GaussianBlur.h"  "GaussianBlur.cpp" "Convolution.h")
 target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenCV_LIBS})
 target_include_directories(${PROJECT_NAME} PRIVATE ${OpenCV_INCLUDE_DIRS})
 
