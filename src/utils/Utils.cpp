@@ -10,26 +10,31 @@ void Utils::imageToGrey(const cv::Mat& src, cv::Mat& dst)
 
 }
 
-void Utils::calculateMagnitude(const cv::Mat& srcX, const cv::Mat& srcY, cv::Mat& dst)
+
+template <typename T>
+T clamp(const T& n, const T& lower, const T& upper) {
+    return std::max(lower, std::min(n, upper));
+}
+
+void Utils::combineWeighted(const cv::Mat& srcX, double weight1, const cv::Mat& srcY, double weight2, cv::Mat& dst)
 {
-    dst = srcX * 0.5 + srcY * 0.5;
+    dst = srcX * clamp<double>(weight1,0 , 1) + srcY * clamp<double>(weight2, 0, 1);
 }
 
 
 
 void Utils::ConvertS16To8U(const cv::Mat& src, cv::Mat& dst)
 {
+    assert(src.type() == CV_16S);
+
     dst = cv::Mat(src.size(), CV_8U);
 
-    int rows = src.rows;
-    int cols = src.cols;
-
-    for (int i = 0; i < rows; ++i)
+    for (int i = 0; i < src.rows; ++i)
     {
         const int16_t* srcRow = src.ptr<int16_t>(i);
         uint8_t* dstRow = dst.ptr<uint8_t>(i);
 
-        for (int j = 0; j < cols; ++j)
+        for (int j = 0; j < src.cols; ++j)
         {
             int v = srcRow[j];
             dstRow[j] = cv::saturate_cast<uint8_t>(std::abs(v));

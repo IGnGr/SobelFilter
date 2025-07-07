@@ -1,4 +1,4 @@
-add_library(filters STATIC "GaussianBlur.cpp" "SobelFilter.cpp" "HorizontalSobelConvolution.cpp" "VerticalSobelConvolution.cpp")
+add_library(filters STATIC "GaussianBlur.cpp" "SobelFilter.cpp" "HorizontalSobelConvolution.h" "VerticalSobelConvolution.h")
 
 target_include_directories(filters PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 

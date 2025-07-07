@@ -7,17 +7,17 @@ int main(int argc, char** argv)
 {
 
     cv::CommandLineParser parser(argc, argv,
-        "{@input   |lena.jpg | input image }"
-        "{@output  |out.jpg | result image }");
+        "{@input   |.\\..\\..\\..\\lena.jpg | input image }"
+        "{@output  |out.jpg | result image }"
+        "{@mode    |0       | mode select 0 - Regular output generation; 1 - Benchmark}");
 
 
-    const cv::String window_name = "Sobel Demo - Simple Edge Detector";
+    const cv::String window_name = "Custom Sobel filter";
 
-    cv::String imageName = parser.get<cv::String>("@input");
-
-
-    SobelFilterApp app(parser.get<cv::String>("@input"), parser.get<cv::String>("@output"));
+    SobelFilterApp app(parser.get<cv::String>("@input"), parser.get<cv::String>("@output"), parser.get<int>("@mode"));
 
 
-    return app.run();
+
+
+    return app.regularRun();
 }

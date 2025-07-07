@@ -1,12 +1,25 @@
 #include "SobelFilterApp.h"
-#include "GaussianBlur.h"
-#include "HorizontalSobelConvolution.cpp"
-#include "VerticalSobelConvolution.cpp"
+
 #include "Utils.h"
+#include "SobelFilter.h"
+
+
 
 int SobelFilterApp::run()
 {
-	cv::Mat image, output, gauss, grey, sobelH, sobelV, sobelAbsH, sobelAbsV, out;
+	switch (m_mode)
+	{
+		case 0: return regularRun();
+		case 1: return benchRun();
+
+		default: return EXIT_FAILURE;
+	}
+
+}
+
+int SobelFilterApp::regularRun()
+{
+	cv::Mat image, output;
 
 	image = loadImage();
 
@@ -17,21 +30,8 @@ int SobelFilterApp::run()
 	}
 
 
-	GaussianBlur::apply(image, gauss);
-	Utils::imageToGrey(gauss, grey);
-
-	HorizontalSobelConvolution horizontal;
-	horizontal.apply(grey, sobelH);
-	Utils::ConvertS16To8U(sobelH, sobelAbsH);
-
-	VerticalSobelConvolution vertical;
-	vertical.apply(grey, sobelV);
-	Utils::ConvertS16To8U(sobelV, sobelAbsV);
-
-	Utils::calculateMagnitude(sobelAbsH, sobelAbsV, out);
-
-	output = out;
-
+	SobelFilter::custom(image, output);
+	
 	saveImage(output);
 
 	return EXIT_SUCCESS;
@@ -42,6 +42,11 @@ void SobelFilterApp::saveImage(const cv::Mat& img)
 	cv::imwrite(m_outputPath, img);
 }
 
+
+int SobelFilterApp::benchRun()
+{
+	return 0;
+}
 
 cv::Mat SobelFilterApp::loadImage()
 {

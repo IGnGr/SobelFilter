@@ -7,6 +7,6 @@ class Utils
 
 public:
     static void imageToGrey(const cv::Mat& src, cv::Mat& dst);
-    static void calculateMagnitude(const cv::Mat& srcX, const cv::Mat& srcY, cv::Mat& dst);
+    static void combineWeighted(const cv::Mat& srcX, double weight1, const cv::Mat& srcY, double weight2, cv::Mat& dst);
     static void ConvertS16To8U(const cv::Mat& src, cv::Mat& dst);
 };
