@@ -6,6 +6,7 @@ class Convolution
 public:
     virtual ~Convolution() = default;
     virtual void apply(const cv::Mat& src, cv::Mat& dst) const;
+    virtual void applyOpenMP(const cv::Mat& src, cv::Mat& dst) const;
 
 
 protected:

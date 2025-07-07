@@ -12,7 +12,7 @@
 void SobelFilter::custom(const cv::Mat& src, cv::Mat& dst)
 {
 
-    cv::Mat  output, gauss, grey, sobelH, sobelV, sobelAbsH, sobelAbsV, out;
+    cv::Mat  gauss, grey, sobelH, sobelV, sobelAbsH, sobelAbsV;
 
     GaussianBlur::apply(src, gauss);
     Utils::imageToGrey(gauss, grey);
@@ -25,9 +25,27 @@ void SobelFilter::custom(const cv::Mat& src, cv::Mat& dst)
     vertical.apply(grey, sobelV);
     Utils::ConvertS16To8U(sobelV, sobelAbsV);
 
-    Utils::combineWeighted(sobelAbsH, 0.5, sobelAbsV, 0.5, out);
+    Utils::combineWeighted(sobelAbsH, 0.5, sobelAbsV, 0.5, dst);
 
-    dst = out;
+}
+
+void SobelFilter::customOpenMP(const cv::Mat& src, cv::Mat& dst)
+{
+
+    cv::Mat  gauss, grey, sobelH, sobelV, sobelAbsH, sobelAbsV;
+
+    GaussianBlur::applyOpenMP(src, gauss);
+    Utils::imageToGrey(gauss, grey);
+
+    HorizontalSobelConvolution horizontal;
+    horizontal.applyOpenMP(grey, sobelH);
+    Utils::ConvertS16To8U(sobelH, sobelAbsH);
+
+    VerticalSobelConvolution vertical;
+    vertical.applyOpenMP(grey, sobelV);
+    Utils::ConvertS16To8U(sobelV, sobelAbsV);
+
+    Utils::combineWeighted(sobelAbsH, 0.5, sobelAbsV, 0.5, dst);
 
 }
 

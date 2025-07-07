@@ -42,3 +42,26 @@ void Utils::ConvertS16To8U(const cv::Mat& src, cv::Mat& dst)
     }
 
 }
+
+
+void Utils::ConvertS16To8UOpenMP(const cv::Mat& src, cv::Mat& dst)
+{
+    assert(src.type() == CV_16S);
+
+    dst = cv::Mat(src.size(), CV_8U);
+
+
+    #pragma omp parallel for
+    for (int i = 0; i < src.rows; ++i)
+    {
+        const int16_t* srcRow = src.ptr<int16_t>(i);
+        uint8_t* dstRow = dst.ptr<uint8_t>(i);
+
+        for (int j = 0; j < src.cols; ++j)
+        {
+            int v = srcRow[j];
+            dstRow[j] = cv::saturate_cast<uint8_t>(std::abs(v));
+        }
+    }
+
+}

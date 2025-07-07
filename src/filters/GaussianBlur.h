@@ -8,7 +8,8 @@ class GaussianBlur
 
 public:
 	// TODO: Add ksize
-	static void apply(const cv::Mat& src, cv::Mat& dest);
+	static void apply(const cv::Mat& src, cv::Mat& dest);	
+	static void applyOpenMP(const cv::Mat& src, cv::Mat& dest);
 
 
 };
