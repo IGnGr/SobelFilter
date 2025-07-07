@@ -3,10 +3,7 @@
 This project implements and benchmarks 3 Sobel filter implementations. A custom version, an OpenMP-optimized version, and OpenCV's native Sobel filter.
 
 
-<img src="images/lena.jpg" alt="drawing" width="200" alignment = "center"/>
-<img src="images/lena_out.jpg" alt="drawing" width="200"/>
-<img src="images/butterfly.jpg" alt="drawing" width="200"/>
-<img src="images/butterfly_out.jpg" alt="drawing" width="200"/>
+<img src="images/lena.jpg" alt="drawing" width="200"/> <img src="images/lena_out.jpg" alt="drawing" width="200"/> <img src="images/butterfly.jpg" alt="drawing" width="200"/> <img src="images/butterfly_out.jpg" alt="drawing" width="200"/>
 
 
 ## Usage
@@ -47,4 +44,4 @@ You can specify the following parameters:
 
 ## Dependencies
 
-- [OpenCV](https://opencv.org/) — Open Source Computer Vision Library (tested with version 4.x)
+- [OpenCV](https://opencv.org/) — Open Source Computer Vision Library (tested with version 4.12)
