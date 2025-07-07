@@ -1,0 +1,100 @@
+﻿// SobelFilter.cpp : Defines the entry point for the application.
+//
+
+#include "SobelFilter.h"
+#include "GaussianBlur.h"
+#include "HorizontalSobelConvolution.cpp"
+#include "VerticalSobelConvolution.cpp"
+
+
+
+
+static void NativeOpenCVSobelFilter(const cv::Mat & src, cv::Mat& dst, int ksize, int scale, int delta, int ddepth)
+{
+
+    // First we declare the variables we are going to use
+    cv::Mat src_gray;
+    cv::Mat grad;
+
+    cv::GaussianBlur(src, dst, cv::Size(3, 3), 0, 0, cv::BORDER_DEFAULT);
+    
+    // Convert the image to grayscale
+    cvtColor(dst, src_gray, cv::COLOR_BGR2GRAY);
+
+    cv::Mat grad_x, grad_y;
+    cv::Mat abs_grad_x, abs_grad_y;
+
+    Sobel(src_gray, grad_x, ddepth, 1, 0, ksize, scale, delta, cv::BORDER_DEFAULT);
+
+    Sobel(src_gray, grad_y, ddepth, 0, 1, ksize, scale, delta, cv::BORDER_DEFAULT);
+
+    // converting back to CV_8U
+    convertScaleAbs(grad_x, abs_grad_x);
+    convertScaleAbs(grad_y, abs_grad_y);
+
+    addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, dst);
+}
+
+static void NativeOpenCVSobelV(const cv::Mat& src, cv::Mat& dst, int ksize, int scale, int delta, int ddepth)
+{
+
+    // First we declare the variables we are going to use
+    cv::Mat src_gray;
+    cv::Mat grad;
+
+    cv::GaussianBlur(src, dst, cv::Size(3, 3), 0, 0, cv::BORDER_DEFAULT);
+
+    // Convert the image to grayscale
+    cvtColor(dst, src_gray, cv::COLOR_BGR2GRAY);
+
+
+    cv::Mat grad_x, grad_y;
+    cv::Mat abs_grad_x, abs_grad_y;
+
+    //Sobel(src_gray, grad_x, ddepth, 1, 0, ksize, scale, delta, cv::BORDER_DEFAULT);
+
+    
+    
+    Sobel(src_gray, grad_y, ddepth, 0, 1, ksize, scale, delta, cv::BORDER_DEFAULT);
+    
+    // converting back to CV_8U
+    //convertScaleAbs(grad_x, abs_grad_x);
+    convertScaleAbs(grad_y, abs_grad_y);
+    dst = abs_grad_y;
+    //addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
+    
+}
+
+
+static void NativeOpenCVSobelH(const cv::Mat& src, cv::Mat& dst, int ksize, int scale, int delta, int ddepth)
+{
+
+    // First we declare the variables we are going to use
+    cv::Mat src_gray;
+    cv::Mat grad;
+
+    cv::GaussianBlur(src, dst, cv::Size(3, 3), 0, 0, cv::BORDER_DEFAULT);
+
+    // Convert the image to grayscale
+    cvtColor(dst, src_gray, cv::COLOR_BGR2GRAY);
+
+
+    cv::Mat grad_x, grad_y;
+    cv::Mat abs_grad_x, abs_grad_y;
+
+    Sobel(src_gray, grad_x, ddepth, 1, 0, ksize, scale, delta, cv::BORDER_DEFAULT);
+
+    
+    //Sobel(src_gray, grad_y, ddepth, 0, 1, ksize, scale, delta, cv::BORDER_DEFAULT);
+
+    // converting back to CV_8U
+    convertScaleAbs(grad_x, abs_grad_x);
+    dst = abs_grad_x;
+    //convertScaleAbs(grad_y, abs_grad_y);a
+
+    //addWeighted(abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad);
+    
+}
+
+
+
