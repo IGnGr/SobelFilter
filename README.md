@@ -9,7 +9,7 @@ This project implements and benchmarks 3 Sobel filter implementations. A custom 
 ## Usage
 
 ```bash
-./SobelFilterApp "path/to/input/image.jpeg" "path/to/output/image.jpeg" --mode iters
+./SobelFilterApp "path/to/input/image.jpeg" "path/to/output/image.jpeg" @mode @iters
 ```
 
 
@@ -20,21 +20,21 @@ You can specify the following parameters:
 * **`@input`**:
     * **Description**: Path to the input image file.
     * **Default**: `lena.jpg`
-    * **Example**: `--input "path/to/another/image.jpeg"`
+    * **Example**: `--input "lena.jpg"`
 
 * **`@output`**:
     * **Description**: Path where the resulting image will be saved.
     * **Default**: `out.jpg`
-    * **Example**: `--output "results/blurred_output.png"`
+    * **Example**: `--output "results/lena_out.jpg"`
 
 * **`@mode`**:
     * **Description**: Selects the application's operating mode.
-    * **Default**: `-o`
+    * **Default**: `o`
     * **Options**:
-        * `-r`: **Regular Output Generation**. Processes the image using the default (custom implementation) filter and saves the result.
-        * `-b`: **Benchmark Mode**. Runs various filter implementations multiple times to measure and compare their performance. No image is saved in this mode.
-        * `-o`: **OpenMP Output Generation**. Processes the image using the OpenMP-optimized filter and saves the result.
-    * **Example**: `--mode -b`
+        * `r`: **Regular Output Generation**. Processes the image using the default (custom implementation) filter and saves the result.
+        * `b`: **Benchmark Mode**. Runs various filter implementations multiple times to measure and compare their performance. No image is saved in this mode.
+        * `o`: **OpenMP Output Generation**. Processes the image using the OpenMP-optimized filter and saves the result.
+    * **Example**: `--mode b`
 
 * **`@iters`**:
     * **Description**: Number of iterations for benchmark mode. This parameter is ignored in other modes.

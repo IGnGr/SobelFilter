@@ -12,7 +12,7 @@ int main(int argc, char** argv)
     cv::CommandLineParser parser(argc, argv,
         "{@input   |lena.jpg | input image }"
         "{@output  |out.jpg | result image }"
-        "{@mode    |-o      | mode select '-r' - Regular output generation; '-b' - Benchmark; '-o' - OpenMP output generation}"
+        "{@mode    |o      | mode select 'r' - Regular output generation; 'b' - Benchmark; 'o' - OpenMP output generation}"
         "{@iters   |10      | iterations in benchmark mode, ignored in regular mode}"
     );
 

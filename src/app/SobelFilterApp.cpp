@@ -7,9 +7,9 @@
 
 int SobelFilterApp::run()
 {
-	if (m_mode == "-r") return regularRun();
-	if (m_mode == "-b") return benchRun();
-    if (m_mode == "-o") return openMPRun();
+	if (m_mode == "r") return regularRun();
+	if (m_mode == "b") return benchRun();
+    if (m_mode == "o") return openMPRun();
 
 	return EXIT_FAILURE;
 	
